@@ -15,4 +15,3 @@ yarn-error.log
 /.vscode
 .editorconfig
 .env.example
-database/migrations
