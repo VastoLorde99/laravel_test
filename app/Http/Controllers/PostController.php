@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        return view('main', ['posts' => Post::orderBy('created_at')->paginate(5)]);
+        return view('main', ['posts' => Post::orderBy('created_at', 'desc')->paginate(5)]);
     }
 
     // public function anon()
@@ -35,5 +35,16 @@ class PostController extends Controller
         //     $post->user_id = $req->input('id');
         //     $user->posts()->save($post);
         // }
+    }
+
+    public function delete(Request $req)
+    {
+        $post = Post::whereRaw('id = ? AND user_id = ?', [$req->input('id'), session('user.id')]);
+        if ($post->delete()) {
+            return response('ok');
+        }
+        else {
+            return response('not');
+        }
     }
 }

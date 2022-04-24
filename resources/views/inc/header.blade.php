@@ -29,7 +29,7 @@
                     @endif
                 </li>
             </ul>
-            <div class="d-flex">
+            <div class="log d-flex">
                 @if (session()->has('user'))
                     <a href="/logout" class="btn btn-outline-danger ms-3">Выход</a>
                 @else

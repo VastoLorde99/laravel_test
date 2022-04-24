@@ -20,6 +20,7 @@ use App\Http\Controllers\PostController;
 Route::get('/', [PostController::class, 'index']);
 // Route::get('/', [PostController::class, 'index']);
 Route::post('/msg', [PostController::class, 'store']);
+Route::post('/delete', [PostController::class, 'delete']);
 
 Route::post('/up', [UserController::class, 'store']);
 Route::post('/in', [UserController::class, 'login']);

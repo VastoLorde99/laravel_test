@@ -43,14 +43,13 @@ $("#auth").submit(function(event) {
     })
     .done(function (user) {
         $('.nav-link.active').html(user.name);
-        $('.d-flex').html('<a href="/logout" class="btn btn-outline-danger ms-3">Выход</a>');
+        $('.log.d-flex').html('<a href="/logout" class="btn btn-outline-danger ms-3">Выход</a>');
         $('input[type=hidden]').attr('value', user.id)
     });
 });
 
 $("#msg").submit(function(event) {
     event.preventDefault();
-    console.log(new FormData(this));
     $.ajax({
         method: "POST",
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -59,10 +58,27 @@ $("#msg").submit(function(event) {
         processData: false,
         contentType: false,
     })
-    .done(function (user) {
+    .done(function (data) {
         
     });
 });
+
+$(".list").on('click', '.delete', function () {
+    let id = $(this).parents('.list_item').attr('data-id'),
+        list_item = $(this).parents('.list_item')
+    $.ajax({
+        method: "POST",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: "/delete",
+        data: `id=${id}`
+    })
+    .done(function (result) {
+        console.log(result);
+        if (result == 'ok') {
+            list_item.remove();
+        }
+    });
+})
 // $(document).ready(function () {    
     
 // })

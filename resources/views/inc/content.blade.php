@@ -14,8 +14,14 @@
         <h2 class="text-center text-light">Все записи</h2>
         <div class="list">
             @foreach ($posts as $post)
-                <div class="bg-dark row mb-3 p-1">
+                <div data-id="{{ $post->id }}" class="list_item bg-dark row mb-3 p-1">
                     <div class="info text-warning">{{ date('d.m.Y H:i', strtotime($post->created_at)) }}</div>
+                    @if ($post->user_id == session('user.id'))
+                        <div class="options d-flex text-light">
+                            <div class="update me-3">изменить</div>
+                            <div class="delete">удалить</div>
+                        </div>
+                    @endif
                     <div class="text text-light">{{ $post->text }}</div>
                 </div>
             @endforeach
@@ -27,13 +33,12 @@
                     earum incidunt molestiae, ipsam reprehenderit et recusandae, placeat exercitationem. Veniam mollitia
                     perferendis debitis!</div>
             </div>
+
             <div class="bg-dark row mb-3 p-1">
                 <div class="info text-warning">24.04.2020 0:10</div>
                 <div class="options d-flex text-light">
                     <div class="update me-3">изменить</div>
                     <div class="delete">удалить</div>
-                    {{-- <button class="btn btn-link">изменить</button>
-                    <button class="btn btn-link">удалить</button> --}}
                 </div>
                 <div class="text text-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. </div>
             </div>
