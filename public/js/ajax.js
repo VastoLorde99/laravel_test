@@ -10,15 +10,22 @@ $("#reg").submit(function(event) {
         contentType: false,
     })
     .done(function (msg) {
-        // console.log(msg);
-        let html = '<div class="btn btn-success">' + msg +'</div>';
-        $('#reg.btn-secondary').before(html);
+        // msg = JSON.parse(msg)
+        console.log(msg);
+        let html = ''
+        if (msg.msg == 'Вы зарегистрированы') {
+            html = '<div class="not btn btn-success">' + msg.msg +'</div>';
+        } 
+        else {
+            html = '<div class="not btn btn-danger">' + msg.msg +'</div>';
+        }
+        $('#reg .btn-primary').after(html);
         setTimeout(() => {
-            $('.success').css('transition', '1s');
-            $('.success').css('opacity', '0');
+            $('#reg .not').css('transition', '1s');
+            $('#reg .not').css('opacity', '0');
         }, 3000);
         setTimeout(() => {
-            $('.success').remove();
+            $('#reg .not').remove();
         }, 4000);
     });
 });

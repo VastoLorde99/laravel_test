@@ -13,15 +13,15 @@ class UserController extends Controller
         $user->email = $req->input('email');
         $user->role = 'user';
         $user->password = $req->input('password');
-        
+
         if ($user->save()) {
             session(['user' => $user]);
-            // session(['name' => $user->name, 'email' => $user->email, 'role' => $user->role]);
-            return response()->json(array('msg' => 'Вы успешно зарегистрированы'), 200);
+            return response()->json(array('msg' => 'Вы зарегистрированы'), 200);
         } 
         else {
             return response()->json(array('msg' => 'Ошибка при регистрации'), 200);
         }
+        // return response()->json(array('msg' => 'Вы зарегистрированы'), 200);
     }
 
     public function login(Request $req)
