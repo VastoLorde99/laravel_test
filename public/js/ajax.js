@@ -59,7 +59,17 @@ $("#msg").submit(function(event) {
         contentType: false,
     })
     .done(function (data) {
-        
+        console.log(data);
+        let html = `
+        <div data-id="${data.id}" class="list_item bg-dark row mb-3 p-1">
+            <div class="info text-warning">${data.time}</div>
+                <div class="options d-flex text-light">
+                    <div class="update me-3">изменить</div>
+                    <div class="delete">удалить</div>
+                </div>
+            <div class="text text-light">${data.text}</div>
+        </div>`
+        $('.list .list_item:first').before(html);
     });
 });
 
@@ -79,6 +89,3 @@ $(".list").on('click', '.delete', function () {
         }
     });
 })
-// $(document).ready(function () {    
-    
-// })

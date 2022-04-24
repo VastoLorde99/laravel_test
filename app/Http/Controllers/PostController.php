@@ -26,7 +26,8 @@ class PostController extends Controller
         $post->text = $req->input('text');
         $post->user_id = session()->has('user') ? session('user.id') : null;
         $post->save();
-
+        $time = date('d.m.Y H:i', strtotime($post->created_at));
+        return response()->json(['id' => $post->id, 'time' => $time, 'text' => $post->text]);
         // if ($req->input('id') == 0) {
         //     $post->user_id = $req->input('id');
         // }
