@@ -42,9 +42,10 @@ $("#auth").submit(function(event) {
         contentType: false,
     })
     .done(function (user) {
-        $('.nav-link.active').html(user.name);
-        $('.log.d-flex').html('<a href="/logout" class="btn btn-outline-danger ms-3">Выход</a>');
-        $('input[type=hidden]').attr('value', user.id)
+        location.reload()
+        // $('.nav-link.active').html(user.name);
+        // $('.log.d-flex').html('<a href="/logout" class="btn btn-outline-danger ms-3">Выход</a>');
+        // $('input[type=hidden]').attr('value', user.id)
     });
 });
 

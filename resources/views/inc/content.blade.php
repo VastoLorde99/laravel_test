@@ -16,7 +16,7 @@
             @foreach ($posts as $post)
                 <div data-id="{{ $post->id }}" class="list_item bg-dark row mb-3 p-1">
                     <div class="info text-warning">{{ date('d.m.Y H:i', strtotime($post->created_at)) }}</div>
-                    @if ($post->user_id == session('user.id'))
+                    @if (($post->user_id == session('user.id') && $post->user_id != null) || session('user.role') == 'admin')
                         <div class="options d-flex text-light">
                             <div class="update me-3">изменить</div>
                             <div class="delete">удалить</div>

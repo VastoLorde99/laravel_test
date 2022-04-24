@@ -40,7 +40,11 @@ class PostController extends Controller
 
     public function delete(Request $req)
     {
-        $post = Post::whereRaw('id = ? AND user_id = ?', [$req->input('id'), session('user.id')]);
+        if (session('user.role') == 'admin') 
+            $post = Post::find($req->input('id')); 
+        else 
+            $post = Post::whereRaw('id = ? AND user_id = ?', [$req->input('id'), session('user.id')]);
+
         if ($post->delete()) {
             return response('ok');
         }

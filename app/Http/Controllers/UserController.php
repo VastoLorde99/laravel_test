@@ -28,7 +28,8 @@ class UserController extends Controller
     {
         $user = User::select('id', 'name', 'email', 'role')->whereRaw('email = ? and password = ?', [$req->input('email'), $req->input('password')])->get();
         session(['user' => $user[0]]);
-        return response()->json($user[0], 200);
+        // return response()->json($user[0], 200);
+        // return redirect('/');
     }
 
     public function logout()
