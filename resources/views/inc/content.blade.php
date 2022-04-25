@@ -16,16 +16,24 @@
             @foreach ($posts as $post)
                 <div data-id="{{ $post->id }}" class="list_item bg-dark row mb-3 p-1">
                     <div class="info text-warning">{{ date('d.m.Y H:i', strtotime($post->created_at)) }}</div>
+                    @php
+                        // $datetime_now = new DateTime("now");
+                        // $datetime2 = new DateTime($post->created_at);
+                        // $interval = $datetime_now->diff($datetime2); $interval->format('%h') <= 2 ? '<=2' : '>2'
+                        $diff_hour = (time() - strtotime($post->created_at)) / (60 * 60);
+                    @endphp
                     @if (($post->user_id == session('user.id') && $post->user_id != null) || session('user.role') == 'admin')
-                        <div class="options d-flex text-light">
-                            <div class="update me-3">изменить</div>
-                            <div class="delete">удалить</div>
-                        </div>
+                        @if ((session('user.role') == 'user' && $diff_hour <= 2) || session('user.role') == 'admin')
+                            <div class="options d-flex text-light">
+                                <div class="update me-3">изменить</div>
+                                <div class="delete">удалить</div>
+                            </div>
+                        @endif
                     @endif
                     <div class="text text-light">{{ $post->text }}</div>
                 </div>
             @endforeach
-            <div class="bg-dark row mb-3 p-1">
+            {{-- <div class="bg-dark row mb-3 p-1">
                 <div class="info text-warning">24.04.2020 0:19</div>
                 <div class="text text-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure fuga
                     repellendus eius? Corporis numquam repellat nihil cupiditate optio eius voluptates repudiandae ut
@@ -41,7 +49,7 @@
                     <div class="delete">удалить</div>
                 </div>
                 <div class="text text-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </main>
