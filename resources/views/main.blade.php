@@ -24,6 +24,9 @@
             cursor: pointer;
             text-decoration: underline;
         }
+        .text:focus-visible {
+            outline: 1px solid #d8b257;
+        }
     </style>
     <body>
         @include('inc.header')

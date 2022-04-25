@@ -64,12 +64,11 @@ $("#msg").submit(function(event) {
         if (data.role == 'auth') {
             html = `
             <div data-id="${data.id}" class="list_item bg-dark row mb-3 p-1">
-                <div class="info text-warning">${data.time}</div>
+                <div class="info text-warning">${data.time} <span class="status"></span></div>
                     <div class="options d-flex text-light">
-                        <div class="update me-3">изменить</div>
                         <div class="delete">удалить</div>
                     </div>
-                <div class="text text-light">${data.text}</div>
+                <div contenteditable="true" class="text text-light">${data.text}</div>
             </div>`
         } else {
             html = `
@@ -96,6 +95,25 @@ $(".list").on('click', '.delete', function () {
         console.log(result);
         if (result == 'ok') {
             list_item.remove();
+        }
+    });
+})
+
+
+$(".list").on('keyup', '.text', function () {
+    let id = $(this).parents('.list_item').attr('data-id'),
+        text = $(this).text(),
+        block = $(this).siblings('.info').find('span');
+    $.ajax({
+        method: "put",
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: "/update",
+        data: `id=${id}&text=${text}`
+    })
+    .done(function (result) {
+        console.log(result);
+        if (result == 'save') {
+            block.text(' (Ред.)');
         }
     });
 })

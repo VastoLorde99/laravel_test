@@ -24,6 +24,8 @@ Route::delete('/delete', [PostController::class, 'delete']);
 
 Route::get('/debug', [PostController::class, 'debug']);
 
+Route::put('/update', [PostController::class, 'update']);
+
 Route::post('/up', [UserController::class, 'store']);
 Route::post('/in', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);

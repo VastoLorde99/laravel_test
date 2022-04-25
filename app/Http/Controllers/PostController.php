@@ -41,26 +41,60 @@ class PostController extends Controller
             else { return response('not'); }
         }
         elseif (session('user.role') == 'user') {
-            $post = Post::whereRaw('id = ? and user_id = ?', array($req->input('id'), session('user.id')))->get();
+            $post = Post::whereRaw('id = ? and user_id = ?', array($req->input('id'), session('user.id')))->first();
 
-            if ($post->isEmpty()) { return response('Empty'); }
+            if (empty($post)) { return response('Empty'); }
 
-            $diff_hour = (time() - strtotime($post[0]->created_at)) / (3600);
+            $diff_hour = (time() - strtotime($post->created_at)) / (3600);
             if ($diff_hour > 2) 
                 return response('not'); 
             else {
-                if ($post[0]->delete()) { return response('ok'); }
+                if ($post->delete()) { return response('ok'); }
                 else { return response('not'); }
+            }
+        }
+    }
+
+    public function update(Request $req)
+    {
+        if (session('user.role') == 'admin') {
+            $post = Post::find($req->input('id'));
+            $post->text = $req->input('text');
+            if ($post->save()) {  return response('save'); }
+            else { return response('no save'); }
+        }
+        elseif (session('user.role') == 'user') {
+            $post = Post::whereRaw('id = ? and user_id = ?', array($req->input('id'), session('user.id')))->first();
+
+            if (empty($post)) { return response('Empty'); }
+
+            $diff_hour = (time() - strtotime($post->created_at)) / (3600);
+
+            if ($diff_hour > 2) {
+                return response('not'); 
+            } else {
+                $post->text = $req->input('text');
+                if ($post->save()) { return response('save'); }
+                else { return response('no save'); }
             }
         }
     }
 
     public function debug()
     {
-        $post = Post::whereRaw('id = ? and user_id = ?', array(21, null))->get();
-        // dd($post);
-        if ($post->count() == 0) {
+        $post = Post::whereRaw('id = ? and user_id = ?', array(29, session('user.id')))->first();
+        if (empty($post)) {
             return response('empty');
         }
+        else {
+            return response('not empty');
+        }
+        // dd($post);
+        // $post = Post::where('id', 29)->whereNull('user_id')->get();
+        // if ($post->isEmpty()) {
+        //     return response('empty');
+        // }else {
+        //     return response('not empty');
+        // }
     }
 }
